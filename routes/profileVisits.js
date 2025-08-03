@@ -42,7 +42,7 @@ export default (db) => {
 
   router.get("/profile-views/:id", async (req, res) => {
     const profileId = req.params.id;
-
+    console.log(profileId);
     try {
       // Total profile views
       const totalResult = await db.query(

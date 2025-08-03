@@ -2,12 +2,12 @@ services:
   analytics-service:
     image: analytics-service:${TAG:-latest}
     build:
-      context: /root/cent-stage/analytics-service
+      context: /root/cent-stage/analytics-microservice
       dockerfile: Dockerfile
       cache_from:
         - analytics-service:cache
     env_file:
-      - /root/cent-stage/analytics-service/.env
+      - /root/cent-stage/analytics-microservice/.env
     ports:
       - "3009:3009"
     networks:

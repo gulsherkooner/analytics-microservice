@@ -1,0 +1,19 @@
+services:
+  analytics-service:
+    image: analytics-service:${TAG:-latest}
+    build:
+      context: /root/cent-stage/analytics-service
+      dockerfile: Dockerfile
+      cache_from:
+        - analytics-service:cache
+    env_file:
+      - /root/cent-stage/analytics-service/.env
+    ports:
+      - "3009:3009"
+    networks:
+      - cent-stage-network
+    restart: unless-stopped
+
+networks:
+  cent-stage-network:
+    external: true

@@ -9,9 +9,9 @@ export const db = new Pool({
   port: process.env.PGPORT ? parseInt(process.env.PGPORT) : 5432,
 });
 
-// Ensure DB table exists
 export const initDB = async () => {
   try {
+    // Existing profile_visits table
     await db.query(`
       CREATE TABLE IF NOT EXISTS profile_visits (
         id SERIAL PRIMARY KEY,
@@ -20,7 +20,21 @@ export const initDB = async () => {
         visited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    console.log("✅ profile_visits table ready.");
+
+    // ✅ New daily_watch_time table
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS daily_watch_time (
+        id SERIAL PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        date DATE NOT NULL,
+        total_watch_time FLOAT DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE (user_id, date)
+      );
+    `);
+
+    console.log("✅ daily_watch_time table ready.");
   } catch (err) {
     console.error("❌ DB initialization error:", err);
   }
